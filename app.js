@@ -70,7 +70,7 @@
         if(liList.length === 1 && !atLeastOne) { 
             const h2 = document.querySelector('h2'); 
             const filter = document.createElement('label');
-            filter.textContent = "see only those who have responded";
+            filter.textContent = "see only completed tasks";
             filter.className = 'filter';
             filter.style.float = 'right';
             const checkbox = document.createElement('input');
