@@ -22,7 +22,7 @@
             return element;
         }
 
-        const label = createElement('label', 'textContent', 'Confirmed');
+        const label = createElement('label', 'textContent', 'Completed');
         const input = createElement('input', 'type', 'checkbox');
         const edit = createBtn('edit', 'edit');
         const remove = createBtn('remove', 'remove');
@@ -47,7 +47,7 @@
     e.preventDefault();
     const text = input.value;
     input.value = '';
-    
+    console.log('just added a task!!');
     const li = addInvitee(text);
     ul.appendChild(li);
     });

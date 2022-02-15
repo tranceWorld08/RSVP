@@ -30,7 +30,7 @@
     text-shadow: 0 1px 0 rgba(0,0,0, .25);
   }
   form {
-    width: 60%;
+    width: 70%;
     background: white;
     display: inline-block;
     overflow: hidden;
@@ -136,6 +136,11 @@
   .responded label {
     transition: 0.4s;
     color: rgba(88, 183, 205, 1);
+  }
+  .responded li {
+    text-decoration: line-through;
+    transition: 0.4s;
+    color: rgb(205, 121, 88);
   }
   
   /* ================================= 
