@@ -70,7 +70,7 @@
         if(liList.length === 1 && !atLeastOne) { 
             const h2 = document.querySelector('h2'); 
             const filter = document.createElement('label');
-            filter.textContent = "see only completed tasks";
+            filter.textContent = "see only incomplete tasks";
             filter.className = 'filter';
             filter.style.float = 'right';
             const checkbox = document.createElement('input');
@@ -124,7 +124,7 @@
     if(label.className === 'filter') {
         if(input.checked) {
         for(let i=0; i < liList.length; i++) {
-            if(liList[i].className !== 'responded') {
+            if(liList[i].className == 'responded') {
             liList[i].style.display = 'none';
             }
         }
