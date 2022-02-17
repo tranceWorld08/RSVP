@@ -34,49 +34,51 @@ document.addEventListener('DOMContentLoaded', () => {
     let lists = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY)) || [];
     let selectedListId = localStorage.getItem(LOCAL_STORAGE_SELECTED_LIST_ID_KEY);
 
-    //======RENDER LISTS======//
+    //======RENDER APP======//
     function render() {
         clearElement(listsContainer);
         renderLists();
-        
-        const selectedList = lists.find(list => list.id === selectedListId);
-        
-        if (selectedList)
-            listTitleElement.innerText = selectedList.name;
-        
-        selectedList.tasks.forEach(task => {
-            if( task.complete == true) {
-                atLeastOne = true;
-                
-            } else {
-                console.log("no completed tasks found!");
-            }
-                
-        })
 
-        // render filter
-        const filter = document.getElementsByClassName('filter').length;
-        
-        if (atLeastOne && !filter) {
-            const h2 = document.querySelector('h2');
-            const filter = document.createElement('label');
-            filter.textContent = "see only incomplete tasks";
-            filter.className = 'filter';
-            filter.style.float = 'right';
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            filter.appendChild(checkbox);
-            div.insertBefore(filter, h2);
+        const selectedList = lists.find(list => list.id === selectedListId);
+
+        if (selectedList) {
+            listTitleElement.innerText = selectedList.name;
+
+            selectedList.tasks.forEach(task => {
+                if (task.complete == true) {
+                    atLeastOne = true;
+
+                } else {
+                    console.log("no completed tasks found!");
+                }
+
+            })
+
+            // render filter
+            const filter = document.getElementsByClassName('filter').length;
+
+            if (atLeastOne && !filter) {
+                const h2 = document.querySelector('h2');
+                const filter = document.createElement('label');
+                filter.textContent = "see only incomplete tasks";
+                filter.className = 'filter';
+                filter.style.float = 'right';
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                filter.appendChild(checkbox);
+                div.insertBefore(filter, h2);
+            }
+
+            renderTaskCount(selectedList);
+            clearElement(tasksContainer);
+            renderTasks(selectedList);
         }
-        
-        renderTaskCount(selectedList);
-        clearElement(tasksContainer);
-        renderTasks(selectedList);
+
         
     }
 
     function renderTaskCount(selectedList) {
-        if(selectedList) {
+        if (selectedList) {
             let incompleteTaskCount = selectedList.tasks.filter(task => !task.complete).length;
             const taskString = (incompleteTaskCount === 1) ? "task" : "tasks";
             listCountElement.innerText = `${incompleteTaskCount} ${taskString} remaining`;
@@ -90,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
             listElement.classList.add("list-name");
             listElement.innerText = list.name;
 
-            if (list.id === selectedListId) 
+            if (list.id === selectedListId)
                 listElement.classList.add('active-list');
 
             listsContainer.appendChild(listElement);
@@ -106,12 +108,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const label = taskElement.querySelector('span');
             label.htmlFor = task.id;
             label.append(task.name)
-            console.log("complete: "+task.complete);
+            
             if (task.complete) {
                 const li = taskElement.querySelector('li');
                 li.className = 'responded';
             }
-            
+
             tasksContainer.appendChild(taskElement);
         })
     }
@@ -126,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //=====LISTS LOGIC=====//
     function addList(text) {
-        
+
         function createList(text) {
             return { id: Date.now().toString(), name: text, tasks: [] }
         }
@@ -139,10 +141,9 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault(); // prevents page refresh
         const text = listInput.value;
         if (text == null || text === '') return;
-        
+
         listInput.value = ''; // clear input field
         let listObj = addList(text);
-        console.log(listObj);
         lists.push(listObj); // adds object to list array
         saveAndRender(); // output array of objects
 
@@ -152,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function addTask(text) {
 
         function createTask(text) {
-            return { id: Date.now().toString(), name: text, completed: false}
+            return { id: Date.now().toString(), name: text, completed: false }
         }
         return createTask(text);
 
@@ -168,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const selectedList = lists.find(list => list.id === selectedListId);
         selectedList.tasks.push(taskObj);
         saveAndRender();
-        
+
     });
 
     //======LIST EVENT LISTENER========//
@@ -194,7 +195,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //======COMPLETED CHECKBOX LISTENER==========//
     tasksContainer.addEventListener('click', e => {
-        if (e.target.tagName.toLowerCase() === 'input') {
+        let buttonText = '';
+        try {
+            buttonText = e.target.parentNode.children[2].innerText;
+        } catch(e) {
+            console.log(e);
+        }
+        
+        if (e.target.tagName.toLowerCase() === 'input' && buttonText !== 'save') {
             const selectedList = lists.find(list => list.id === selectedListId);
             const selectedTask = selectedList.tasks.find(task => task.id === e.target.id);
             selectedTask.complete = e.target.checked;
@@ -202,9 +210,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.target.checked) {
                 li.className = 'responded';
             } else {
-                li.className='';
+                li.className = '';
             }
-            
+
             save();
             renderTaskCount(selectedList);
         }
@@ -213,12 +221,12 @@ document.addEventListener('DOMContentLoaded', () => {
     tasksContainer.addEventListener('change', (e) => {
         if (e.target.type === 'checkbox') {
             let liList = document.getElementsByClassName('responded');
-            
+
             if (liList.length < 1) {
                 atLeastOne = false;
                 const filter = div.firstElementChild;
                 div.removeChild(filter);
-                
+
             } else {
 
                 if (liList.length === 1 && !atLeastOne) {
@@ -235,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 atLeastOne = true;
             }
         }
-        
+
     });
     //======TASK BUTTON LISTENERS========//
     ul.addEventListener('click', (e) => {
@@ -243,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target.tagName === "BUTTON") {
             const button = e.target;
             const li = button.parentNode;
-            const ul = li.parentNode;
+            //const ul = li.parentNode;
 
             if (button.textContent === "remove") {
                 const selectedList = lists.find(list => list.id === selectedListId);
@@ -260,12 +268,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 li.insertBefore(input, span);
                 li.removeChild(span);
             } else if (button.textContent === 'save') {
+                const selectedList = lists.find(list => list.id === selectedListId);
+                const selectedTask = selectedList.tasks.find(task => task.id === e.target.parentNode.children[1].firstElementChild.id);
                 const input = li.firstElementChild;
                 const span = document.createElement('span');
                 span.textContent = input.value;
                 button.textContent = 'edit';
                 li.insertBefore(span, input);
                 li.removeChild(input);
+                selectedTask.name = span.textContent;
+                saveAndRender();
             } else {
                 console.log('something is wrong!!');
             }
@@ -291,7 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         }
-        
+
     });
 
     function saveAndRender() {
