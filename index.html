@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>TASK App</title>
@@ -7,22 +8,65 @@
   <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
 </head>
+
 <body>
-  <div class="wrapper">
-    <header>
-      <h1>TASKS</h1>
-      <p>Compile your work tasks and get 'em done!</p>
-      <form id="registrar">
-        <input type="text" name="name" placeholder="Add a task...">
-        <button type="submit" name="submit" value="submit">Submit</button>
+  <div class="container">
+    <!--LISTS-->
+    <div class="wrapper-left">
+      <h3 class="list-header">Task lists:</h3>
+      <ul id="list-items" data-lists></ul>
+
+      <form id="list_form">
+        <button type="submit" class="btn create" aria-label="create new list">+</button>
+        <input type="text" class="new list" aria-label="new list name" placeholder="new list name...">
       </form>
-    </header>
-		
-    <div class="main">	
-      <h2>ToDo's:</h2>
-      <ul id="invitedList"></ul>
     </div>
+
+    <!--TASKS-->
+    <div class="container-right">
+      <div class="wrapper">
+        <header>
+          <h1>TASKS</h1>
+          <p>Compile your work tasks and get 'em done!</p>
+
+          <form id="registrar" data-new-task-form>
+            <input type="text" name="name" placeholder="Add a task...">
+            <button type="submit" name="submit" value="submit">Submit</button>
+          </form>
+        </header>
+
+        <div class="main" data-list-display-container>
+          <h2 data-list-title></h2>
+          
+          <p id="remaining-task-ticker" data-list-count></p>
+
+          <ul id="invitedList" data-tasks></ul>
+        </div>
+      </div>
+      <!--end wrapper div-->
+
+      <!--DELETE LINKS-->
+      <div class="delete-stuff">
+        <button class="btn delete" data-clear-complete-tasks-button>Clear completed tasks</button>
+        <button class="btn delete" data-delete-list-button>Delete list</button>
+      </div>
+
+    </div>
+    <!--end container-right-->
+
   </div>
-  <script type="text/javascript" src="app.js"></script>
+
+  <template id="task-template">
+    <li>
+      <span class="task"></span>
+      <label>
+        <input type="checkbox">Completed</label>
+      <button class="edit">edit</button>
+      <button class="remove">remove</button>
+    </li>
+  </template>
+
+  <script defer type="text/javascript" src="app.js"></script>
 </body>
+
 </html>
