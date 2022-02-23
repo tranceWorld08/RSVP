@@ -28,7 +28,7 @@
         <header>
           <h1>TASKS</h1>
           <p>Compile your work tasks and get 'em done!</p>
-
+          
           <form id="registrar" data-new-task-form>
             <input type="text" name="name" placeholder="Add a task...">
             <button type="submit" name="submit" value="submit">Submit</button>
@@ -60,13 +60,14 @@
     <li>
       <span class="task"></span>
       <label>
-        <input type="checkbox">Completed</label>
+        <input type="checkbox" data-checkbox-complete>Completed</label>
       <button class="edit">edit</button>
       <button class="remove">remove</button>
     </li>
   </template>
 
   <script defer type="text/javascript" src="app.js"></script>
+  
 </body>
 
 </html>

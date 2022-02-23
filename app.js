@@ -19,6 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const ul = document.getElementById('invitedList');
     const button = document.createElement('button');
     const div = document.querySelector('.main');
+
+    const completeCheckbox = document.querySelector('[data-checkbox-complete]');
     let atLeastOne = false;
 
     function createBtn(nm, classNm = '') {
@@ -208,7 +210,10 @@ document.addEventListener('DOMContentLoaded', () => {
             selectedTask.complete = e.target.checked;
             const li = e.target.parentNode.parentNode;
             if (e.target.checked) {
+                const audio = new Audio();
+                audio.src = "https://www.fesliyanstudios.com/play-mp3/5259";
                 li.className = 'responded';
+                audio.play();
             } else {
                 li.className = '';
             }
@@ -217,6 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
             renderTaskCount(selectedList);
         }
     })
+
     //=======HIDE/SHOW FILTER======//
     tasksContainer.addEventListener('change', (e) => {
         if (e.target.type === 'checkbox') {
