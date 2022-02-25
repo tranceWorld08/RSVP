@@ -220,8 +220,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
             save();
             renderTaskCount(selectedList);
+
+            //----Render Modal----//
+            renderModalQueueSound();
         }
     })
+
+    function renderModalQueueSound() {
+        const audio = new Audio();
+        audio.src = "https://www.fesliyanstudios.com/play-mp3/6981";
+        //audio.src = "https://freesound.org/s/320657";
+        let allComplete = true;
+        const selectedList = lists.find(list => list.id === selectedListId);
+        selectedList.tasks.forEach(task => {
+            console.log("Completed: "+task.complete + " | "+task.name);
+            if (!task.complete) {
+                allComplete = false;
+            } 
+        })
+        if (allComplete) {
+            audio.play();
+            alert("All tasks complete!");
+        }
+        
+        console.log("All Complete: "+allComplete);
+    }
 
     //=======HIDE/SHOW FILTER======//
     tasksContainer.addEventListener('change', (e) => {
