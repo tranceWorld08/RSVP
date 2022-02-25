@@ -108,8 +108,10 @@ document.addEventListener('DOMContentLoaded', () => {
             checkbox.id = task.id;
             checkbox.checked = task.complete;
             const label = taskElement.querySelector('span');
+            const description = taskElement.querySelector('pre');
             label.htmlFor = task.id;
             label.append(task.name)
+            description.append(task.description);
             
             if (task.complete) {
                 const li = taskElement.querySelector('li');
@@ -155,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function addTask(text) {
 
         function createTask(text) {
-            return { id: Date.now().toString(), name: text, completed: false }
+            return { id: Date.now().toString(), name: text, description: '', completed: false }
         }
         return createTask(text);
 
@@ -199,7 +201,8 @@ document.addEventListener('DOMContentLoaded', () => {
     tasksContainer.addEventListener('click', e => {
         let buttonText = '';
         try {
-            buttonText = e.target.parentNode.children[2].innerText;
+            console.log("Tag: "+e.target.parentNode.children[3].innerText);
+            buttonText = e.target.parentNode.children[3].innerText;
         } catch(e) {
             console.log(e);
         }
@@ -207,7 +210,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target.tagName.toLowerCase() === 'input' && buttonText !== 'save') {
             const selectedList = lists.find(list => list.id === selectedListId);
             const selectedTask = selectedList.tasks.find(task => task.id === e.target.id);
-            selectedTask.complete = e.target.checked;
+            if (selectedTask)
+                selectedTask.complete = e.target.checked;
             const li = e.target.parentNode.parentNode;
             if (e.target.checked) {
                 const audio = new Audio();
@@ -284,29 +288,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (button.textContent === "remove") {
                 const selectedList = lists.find(list => list.id === selectedListId);
-                const selectedTask = selectedList.tasks.find(task => task.id === e.target.parentNode.children[1].firstElementChild.id);
+                const selectedTask = selectedList.tasks.find(task => task.id === e.target.parentNode.children[2].firstElementChild.id);
                 const itemIndex = selectedList.tasks.indexOf(selectedTask);
                 selectedList.tasks.splice(itemIndex, 1);
                 saveAndRender();
+
             } else if (button.textContent === "edit") {
                 const span = li.firstElementChild;
+                const pre = li.children[1];
                 const input = document.createElement('input');
                 input.type = 'text';
                 input.value = span.textContent;
+                const description = document.createElement('textarea');
+                description.rows = 4;
+                description.cols = 40;
+                description.wrap = 'soft';
+
+                if (pre.textContent == '')
+                    description.placeholder = "Description:";
+                else
+                    description.value = pre.textContent;
+
                 button.textContent = 'save';
                 li.insertBefore(input, span);
+                li.insertBefore(description, pre);
                 li.removeChild(span);
+                li.removeChild(pre);
+
             } else if (button.textContent === 'save') {
                 const selectedList = lists.find(list => list.id === selectedListId);
-                const selectedTask = selectedList.tasks.find(task => task.id === e.target.parentNode.children[1].firstElementChild.id);
+                const selectedTask = selectedList.tasks.find(task => task.id === e.target.parentNode.children[2].firstElementChild.id);
                 const input = li.firstElementChild;
+                const desc = li.children[1];
                 const span = document.createElement('span');
+                const pre = document.createElement('pre');
                 span.textContent = input.value;
+                pre.textContent = desc.value;
                 button.textContent = 'edit';
                 li.insertBefore(span, input);
+                li.insertBefore(pre, desc);
                 li.removeChild(input);
+                li.removeChild(desc);
                 selectedTask.name = span.textContent;
+                selectedTask.description = pre.textContent;
                 saveAndRender();
+                
             } else {
                 console.log('something is wrong!!');
             }

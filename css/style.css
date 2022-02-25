@@ -337,6 +337,11 @@ div>label {
   opacity: 0.1;
 }
 
+/* Description styles */
+pre {
+  padding-left: 1.5em;
+}
+
 .custom-checkbox {
   --size: 0.75em;
   display: inline-block;
