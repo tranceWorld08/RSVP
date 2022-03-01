@@ -202,6 +202,14 @@ li input[type=text]:first-child {
   display: block;
 }
 
+.draggable {
+  cursor: move;
+}
+
+.draggable.dragging {
+  opacity: 0.5;
+}
+
 li button {
   font-size: .78em;
   margin-top: 1.65em;

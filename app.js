@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
             renderTasks(selectedList);
         }
 
-        
+
     }
 
     function renderTaskCount(selectedList) {
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
             label.htmlFor = task.id;
             label.append(task.name)
             description.append(task.description);
-            
+
             if (task.complete) {
                 const li = taskElement.querySelector('li');
                 li.className = 'responded';
@@ -201,12 +201,12 @@ document.addEventListener('DOMContentLoaded', () => {
     tasksContainer.addEventListener('click', e => {
         let buttonText = '';
         try {
-            console.log("Tag: "+e.target.parentNode.children[3].innerText);
+            console.log("Tag: " + e.target.parentNode.children[3].innerText);
             buttonText = e.target.parentNode.children[3].innerText;
-        } catch(e) {
+        } catch (e) {
             console.log(e);
         }
-        
+
         if (e.target.tagName.toLowerCase() === 'input' && buttonText !== 'save') {
             const selectedList = lists.find(list => list.id === selectedListId);
             const selectedTask = selectedList.tasks.find(task => task.id === e.target.id);
@@ -237,17 +237,17 @@ document.addEventListener('DOMContentLoaded', () => {
         let allComplete = true;
         const selectedList = lists.find(list => list.id === selectedListId);
         selectedList.tasks.forEach(task => {
-            console.log("Completed: "+task.complete + " | "+task.name);
+            console.log("Completed: " + task.complete + " | " + task.name);
             if (!task.complete) {
                 allComplete = false;
-            } 
+            }
         })
         if (allComplete) {
             audio.play();
             alert("All tasks complete!");
         }
-        
-        console.log("All Complete: "+allComplete);
+
+        console.log("All Complete: " + allComplete);
     }
 
     //=======HIDE/SHOW FILTER======//
@@ -278,6 +278,68 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
     });
+
+    //======DRAG LISTENERS=========//
+    const draggables = document.querySelectorAll('.draggable');
+
+    draggables.forEach(draggable => {
+
+        draggable.addEventListener('dragstart', () => {
+            console.log("Dragging...");
+            //draggable.className = 'dragging';
+            draggable.classList.add('dragging');
+        })
+
+        draggable.addEventListener('dragend', () => {
+            console.log("Dragging stopped...");
+            draggable.classList.remove('dragging');
+        })
+
+    })
+
+    tasksContainer.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        const afterElement = getDragAfterElement(tasksContainer, e.clientX, e.clientY);
+        const draggable = document.querySelector('.dragging');
+        console.log("draggable obj id: "+draggable.children[2].firstElementChild.id);
+        console.log("After element: "+afterElement.children[2].firstElementChild.id);
+        if (afterElement == null || afterElement == undefined) {
+            tasksContainer.appendChild(draggable);
+            //save();
+            //saveAndRender();
+        } else {
+            //tasksContainer.appendChild(draggable, afterElement);
+            
+            //const selectedTask = selectedList.tasks.find(task => task.id === draggable.children[2].firstElementChild.id);
+            tasksContainer.insertBefore(draggable, afterElement);
+            
+            save();
+            //console.log("appending...");
+            //saveAndRender();
+        }
+        const selectedList = lists.find(list => list.id === selectedListId);
+            selectedList.tasks.forEach(task => {
+                console.log(task.name);
+            })
+    })
+
+    function getDragAfterElement(container, x, y) {
+        const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')];
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            console.log(box);
+            const offsetX = x - box.left - box.width / 2;
+            const offsetY = y - box.top - box.height / 2;
+            
+            if ((offsetX < 0 && offsetX > closest.offsetX) && (offsetY < 0 && offsetY > closest.offsetY)) {
+                return { offsetX: offsetX, offsetY: offsetY, element: child };
+            } else {
+                return closest;
+            }
+        }, {offsetX: Number.NEGATIVE_INFINITY,offsetY: Number.NEGATIVE_INFINITY}).element;
+    }
+    
+
     //======TASK BUTTON LISTENERS========//
     ul.addEventListener('click', (e) => {
 
@@ -332,7 +394,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 selectedTask.name = span.textContent;
                 selectedTask.description = pre.textContent;
                 saveAndRender();
-                
+
             } else {
                 console.log('something is wrong!!');
             }
