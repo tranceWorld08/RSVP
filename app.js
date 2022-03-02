@@ -230,8 +230,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     })
 
+    const modal = document.querySelector('.modal');
+    const hideIcon = document.querySelector('.modal #hideIcon');
+    const hideButton = document.querySelector('.modal #hideButton');
+    
     function renderModalQueueSound() {
         const audio = new Audio();
+
         audio.src = "https://www.fesliyanstudios.com/play-mp3/6981";
         //audio.src = "https://freesound.org/s/320657";
         let allComplete = true;
@@ -244,10 +249,19 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         if (allComplete) {
             audio.play();
-            alert("All tasks complete!");
+            modal.id = 'show';
+            //alert("All tasks complete!");
         }
 
         console.log("All Complete: " + allComplete);
+    }
+
+    hideIcon.addEventListener('click', hideModal);
+
+    hideButton.addEventListener('click', hideModal);
+
+    function hideModal() {
+        modal.id = 'hide';
     }
 
     //=======HIDE/SHOW FILTER======//

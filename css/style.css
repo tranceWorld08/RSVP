@@ -199,7 +199,7 @@ li label {
 
 li span,
 li input[type=text]:first-child {
-  display: block;
+  display:block;
 }
 
 .draggable {
@@ -223,39 +223,6 @@ li button {
 li button:last-child {
   background-color: rgba(255, 0, 0, 0.5);
 }
-
-/* .title {
-    grid-area: header;
-    text-align: center;
-    font-size: calc(7vw + 2rem);
-    font-weight: 900;
-    color: rgba(0,0,0,0.1);
-    letter-spacing: 2px;
-    margin: -0.3em 0 0.5em;
-  }
-
-  .all-tasks {
-    grid-area: lists;
-  }
-
-  .task-list {
-    font-size: 1.2rem;
-    line-height: 1.7;
-    list-style: circle;
-    padding-left: 1.1em;
-  }*/
-
-/* .list-name {
-    cursor: pointer;
-  } */
-
-/* .list-name:hover {
-    opacity: 0.7;
-  } */
-
-/*form {
-    display: flex;
-  } */
 
 .container-right {
   width: 100%;
@@ -345,10 +312,102 @@ div>label {
   opacity: 0.1;
 }
 
-/* Description styles */
+/* =================
+  Description styles 
+ =================== */
 pre {
   padding-left: 1.5em;
 }
+
+/* ============
+  Modal Styles 
+ ============== */
+ .modal {
+  z-index: 100;
+  position: absolute;
+  top: 30vh;
+  left: 45%;
+  width: 400px;
+  height: 360px;
+  border-radius: 12px;
+  background: #d6d6d6;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+  transition: .4s;
+}
+
+.modal .modal-header {
+  display: flex;
+  justify-content: flex-start;
+  padding: 15px 18px;
+}
+
+.modal .modal-header button {
+  cursor: pointer;
+  font-size: 22px;
+  color: #21202c;
+  background: transparent;
+}
+
+.modal .modal-body {
+  text-align: center;
+}
+
+.modal .modal-body img {
+  width: 40%;
+  /* margin: 10px 0 30px; */
+}
+
+.modal .modal-body h3 {
+  margin:15px 0 0 0;
+  color: #21202c;
+  font-size: 30px;
+}
+
+.modal .modal-body p {
+  color: #5a586d;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.modal .modal-body button {
+  cursor: pointer;
+  margin-top: 20px;
+  font-size: 22px;
+  background: #e77972;
+  color: #ffffff;
+  padding: 12px 120px;
+  border-radius: 6px;
+  letter-spacing: 1px;
+  transition: .4s;
+}
+
+.modal .modal-body button:hover {
+  background: #e0344b;
+}
+
+.modal#hide {
+  opacity: 0;
+  transform: scale(.6);
+  pointer-events: none;
+}
+
+.modal#show {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: visible;
+}
+
+#showButton {
+  cursor: pointer;
+  position: absolute;
+  background: #21202c;
+  color: #ffffff;
+  padding: 14px 22px;
+  font-size: 18px;
+  border-radius: 8px;
+  letter-spacing: .5px;
+}
+/* End Modal Styles */
 
 .custom-checkbox {
   --size: 0.75em;
@@ -431,7 +490,7 @@ pre {
     -webkit-flex-direction: column;
     flex-direction: column;
     margin: auto;
-    margin-top: 2.5em;
+    margin-top: 1em;
   }
 
   form button {
@@ -483,7 +542,7 @@ pre {
 
   form {
     margin: 4.15em auto 0;
-    z-index: 3000;
+    z-index: 50;
     position: relative;
   }
 

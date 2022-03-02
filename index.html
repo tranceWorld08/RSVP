@@ -7,6 +7,15 @@
   <link href="https://fonts.googleapis.com/css?family=Courgette" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
+
+  <!-- Fontawesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- Montserrat Font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700;900&display=swap"
+    rel="stylesheet">
+
 </head>
 
 <body>
@@ -34,6 +43,7 @@
     <!--TASKS-->
     <div class="container-right">
       <div class="wrapper">
+
         <header>
           <h1>TASKS</h1>
           <p>Compile your work tasks and get 'em done!</p>
@@ -50,8 +60,9 @@
           <p id="remaining-task-ticker" data-list-count></p>
 
           <ul id="invitedList" data-tasks></ul>
-          
+
         </div>
+
       </div>
       <!--end wrapper div-->
 
@@ -66,18 +77,33 @@
 
   </div>
 
+  <!--MODAL ELEMENT-->
+  <div class="modal" id="hide">
+    <div class="modal-header">
+      <button id="hideIcon">
+        <i class="fa fa-close"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <img src="/images/modal-img.png" alt="...">
+      <h3 id="modal-header-text">And... Ya Done!</h3>
+      <button id="hideButton">Close</button>
+    </div>
+  </div>
+  <!--END MODAL ELEMENT-->
+
   <template id="task-template">
-    
-      <li class="draggable" draggable="true">
-        <span class="task"></span>
-        <pre></pre>
-        <label>
-          <input type="checkbox" data-checkbox-complete>Completed</label>
-        <button class="edit">edit</button>
-        <button class="remove">remove</button>
-        <!-- <button class="priority">priority</button> -->
-      </li>
-    
+
+    <li class="draggable" draggable="true">
+      <span class="task"></span>
+      <pre></pre>
+      <label>
+        <input type="checkbox" data-checkbox-complete>Completed</label>
+      <button class="edit">edit</button>
+      <button class="remove">remove</button>
+      <!-- <button class="priority">priority</button> -->
+    </li>
+
   </template>
 
   <script defer type="text/javascript" src="app.js"></script>
