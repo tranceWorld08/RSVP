@@ -38,6 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //======RENDER APP======//
     function render() {
+        lists.forEach(list => {
+            console.log(list);
+        })
+
+        console.log(lists.name);
         clearElement(listsContainer);
         renderLists();
 
@@ -91,8 +96,9 @@ document.addEventListener('DOMContentLoaded', () => {
         lists.forEach(list => {
             const listElement = document.createElement('li');
             listElement.dataset.listId = list.id;
-            listElement.classList.add("list-name");
+            listElement.classList.add("list-name","draggable-list-item");
             listElement.innerText = list.name;
+            listElement.draggable = 'true';
 
             if (list.id === selectedListId)
                 listElement.classList.add('active-list');
@@ -233,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const modal = document.querySelector('.modal');
     const hideIcon = document.querySelector('.modal #hideIcon');
     const hideButton = document.querySelector('.modal #hideButton');
-    
+
     function renderModalQueueSound() {
         const audio = new Audio();
 
@@ -295,12 +301,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //======DRAG LISTENERS=========//
     const draggables = document.querySelectorAll('.draggable');
+    const draggableList = document.querySelectorAll('.draggable-list-item');
 
     draggables.forEach(draggable => {
 
         draggable.addEventListener('dragstart', () => {
             console.log("Dragging...");
             //draggable.className = 'dragging';
+            draggable.classList.add('dragging');
+        })
+
+        draggable.addEventListener('dragend', () => {
+            console.log("Dragging stopped...");
+            draggable.classList.remove('dragging');
+        })
+
+    })
+
+    draggableList.forEach(draggable => {
+
+        draggable.addEventListener('dragstart', () => {
+            console.log("Dragging...");
             draggable.classList.add('dragging');
         })
 
@@ -331,10 +352,36 @@ document.addEventListener('DOMContentLoaded', () => {
             //console.log("appending...");
             //saveAndRender();
         }
-        const selectedList = lists.find(list => list.id === selectedListId);
-            selectedList.tasks.forEach(task => {
-                console.log(task.name);
-            })
+        // const selectedList = lists.find(list => list.id === selectedListId);
+        // selectedList.tasks.forEach(task => {
+        //     console.log(task.name);
+        // })
+    })
+
+    listsContainer.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        const afterElement = getDragAfterElementForList(listsContainer, e.clientY);
+        const draggable = document.querySelector('.dragging');
+        console.log("draggable obj: "+draggable);
+        console.log("After element: "+afterElement);
+        if (afterElement == null || afterElement == undefined) {
+            listsContainer.appendChild(draggable);
+            //save();
+            //saveAndRender();
+        } else {
+            //listsContainer.appendChild(draggable, afterElement);
+            
+            //const selectedTask = selectedList.tasks.find(task => task.id === draggable.children[2].firstElementChild.id);
+            listsContainer.insertBefore(draggable, afterElement);
+            save();
+            // lists.forEach(list => {
+            //     console.log("======AFTER SORT========");
+            //     console.log(list.name);
+            // })
+            //console.log("appending...");
+            //saveAndRender();
+        }
+        
     })
 
     function getDragAfterElement(container, x, y) {
@@ -351,6 +398,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 return closest;
             }
         }, {offsetX: Number.NEGATIVE_INFINITY,offsetY: Number.NEGATIVE_INFINITY}).element;
+    }
+
+    function getDragAfterElementForList(container, y) {
+        const draggableElements = [...container.querySelectorAll('.draggable-list-item:not(.dragging)')];
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            //console.log(box);
+            const offset = y - box.top - box.height / 2;
+            
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child };
+            } else {
+                return closest;
+            }
+        }, {offset: Number.NEGATIVE_INFINITY}).element;
     }
     
 
