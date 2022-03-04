@@ -38,13 +38,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //======RENDER APP======//
     function render() {
-        lists.forEach(list => {
-            console.log(list);
-        })
+        
+        // lists.forEach(list => {
+        //     console.log("Object text: "+list.name);
+        // })
 
         console.log(lists.name);
         clearElement(listsContainer);
         renderLists();
+
+        // const listItems = document.querySelectorAll('.list-name');
+        // console.log("node length: "+listItems.length);
+        // listItems.forEach(item => {
+        //     console.log("Node text: "+item.textContent);
+        // })
 
         const selectedList = lists.find(list => list.id === selectedListId);
 
@@ -345,11 +352,11 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             //tasksContainer.appendChild(draggable, afterElement);
             
-            //const selectedTask = selectedList.tasks.find(task => task.id === draggable.children[2].firstElementChild.id);
+            const selectedList = lists.find(list => list.id === selectedListId);
             tasksContainer.insertBefore(draggable, afterElement);
-            
+            let orderedTasks = reorderTasks();
+            selectedList.tasks = orderedTasks;
             save();
-            //console.log("appending...");
             //saveAndRender();
         }
         // const selectedList = lists.find(list => list.id === selectedListId);
@@ -373,16 +380,50 @@ document.addEventListener('DOMContentLoaded', () => {
             
             //const selectedTask = selectedList.tasks.find(task => task.id === draggable.children[2].firstElementChild.id);
             listsContainer.insertBefore(draggable, afterElement);
+            let orderedList = reorderLists();
+            lists = orderedList;
             save();
-            // lists.forEach(list => {
-            //     console.log("======AFTER SORT========");
-            //     console.log(list.name);
-            // })
-            //console.log("appending...");
             //saveAndRender();
         }
         
     })
+
+    function reorderTasks() {
+        let stagingList = [];
+        const taskItems = document.querySelectorAll('.task');
+
+        taskItems.forEach(item => {
+            let nodeText = item.textContent;
+            const selectedList = lists.find(list => list.id === selectedListId);
+            const selectedTask = selectedList.tasks.find(task => task.name === nodeText);
+
+            stagingList.push(selectedTask);
+        })
+        return stagingList;
+        // console.log("new task order:");
+        // stagingList.forEach(item => {
+        //     console.log(item.name);
+        // })
+    }
+
+    function reorderLists() {
+        let stagingList = [];
+        const listItems = document.querySelectorAll('.list-name');
+
+        listItems.forEach(item => {
+            let nodeText = item.textContent;
+            const selectedList = lists.find(list => list.name === nodeText);
+            stagingList.push(selectedList);
+        })
+        return stagingList;
+
+        //console.log("Length: "+stagingList[3]);
+        // console.log('Staging List:');
+        // stagingList.forEach(item => {
+        //     console.log(item.tasks);
+        // })
+        
+    }
 
     function getDragAfterElement(container, x, y) {
         const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')];
@@ -469,7 +510,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 li.removeChild(desc);
                 selectedTask.name = span.textContent;
                 selectedTask.description = pre.textContent;
-                saveAndRender();
+                save();
+                //saveAndRender();
 
             } else {
                 console.log('something is wrong!!');
