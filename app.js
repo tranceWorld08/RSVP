@@ -193,6 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
     listsContainer.addEventListener('click', (e) => {
         if (e.target.tagName.toLowerCase() === 'li') {
             selectedListId = e.target.dataset.listId;
+            hideModal();
             saveAndRender();
         }
     })

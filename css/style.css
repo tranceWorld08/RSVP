@@ -117,23 +117,19 @@ p {
   list-style: circle;
 }
 
-.wrapper form {
-  width: 70%;
-  background: white;
-  display: inline-block;
+.wrapper {
+  width: 100%;
+  max-width: 2000px;
+  margin: 2.5em auto;
+  padding: 0;
+  border-radius: .35em;
+  background: #fcfcfc;
   overflow: hidden;
-  display: -webkit-flex;
-  display: flex;
-  border-radius: .2em;
-  border: solid 4px white;
-  box-shadow: 0 1px 14px rgba(0, 0, 0, .12);
+  box-shadow: 0 0 26px rgba(0, 0, 0, .13);
 }
 
-form button {
-  padding: 0 1em;
-  font-size: 1em;
-  background: #7bcbc4;
-  border-radius: .2em;
+.wrapper {
+  width: 90%;
 }
 
 .wrapper li {
@@ -150,8 +146,33 @@ form button {
   position: relative;
 }
 
+.wrapper form {
+  width: 70%;
+  background: white;
+  display: inline-block;
+  overflow: hidden;
+  display: -webkit-flex;
+  display: flex;
+  border-radius: .2em;
+  border: solid 4px white;
+  box-shadow: 0 1px 14px rgba(0, 0, 0, .12);
+}
+
+.main {
+  padding: 3.8em 1.5em .75em;
+  position: relative;
+  z-index: 10;
+}
+
 button {
   cursor: pointer;
+}
+
+form button {
+  padding: 0 1em;
+  font-size: 1em;
+  background: #7bcbc4;
+  border-radius: .2em;
 }
 
 input,
@@ -227,19 +248,8 @@ li button:last-child {
 .container-right {
   width: 100%;
   max-width: 2000px;
-  margin: auto;
+  margin: 0 auto;
   padding: 0;
-}
-
-.wrapper {
-  width: 100%;
-  max-width: 2000px;
-  margin: 2.5em auto;
-  padding: 0;
-  border-radius: .35em;
-  background: #fcfcfc;
-  overflow: hidden;
-  box-shadow: 0 0 26px rgba(0, 0, 0, .13);
 }
 
 div>input:last-child {
@@ -546,15 +556,7 @@ pre {
     position: relative;
   }
 
-  .wrapper {
-    width: 90%;
-  }
-
-  .main {
-    padding: 3.8em 1.5em .75em;
-    position: relative;
-    z-index: 10;
-  }
+  
 
   ul {
     display: -webkit-flex;
