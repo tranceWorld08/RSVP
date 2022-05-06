@@ -479,6 +479,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const input = document.createElement('input');
                 input.type = 'text';
                 input.value = span.textContent;
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
                 const description = document.createElement('textarea');
                 description.rows = 4;
                 description.cols = 40;
@@ -491,6 +493,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 button.textContent = 'save';
                 li.insertBefore(input, span);
+                li.insertBefore(checkbox,description);
                 li.insertBefore(description, pre);
                 li.removeChild(span);
                 li.removeChild(pre);
